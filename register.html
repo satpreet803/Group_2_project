@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration | <span data-dynamic="college-short">GP BAZPUR</span> Spot Counselling</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
+    </script>
+    <style>
+        .form-step { display: none; }
+        .form-step.active { display: block; animation: slideIn 0.3s ease-out; }
+        .progress-stepper { display: flex; justify-content: space-between; margin-bottom: 2rem; }
+        .step-item { flex: 1; text-align: center; position: relative; }
+        .step-item::after { content: ''; position: absolute; top: 15px; left: 50%; width: 100%; height: 2px; background: #e2e8f0; z-index: -1; }
+        .step-item:last-child::after { display: none; }
+        .step-counter { width: 32px; height: 32px; background: #fff; border: 2px solid #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: bold; font-size: 14px; transition: 0.3s; }
+        .step-item.active .step-counter { background: var(--primary-teal); border-color: var(--primary-teal); color: #fff; transform: scale(1.1); }
+        .step-item.completed .step-counter { background: #22c55e; border-color: #22c55e; color: #fff; }
+        .step-item.completed::after { background: #22c55e; }
+        .step-title { font-size: 12px; color: #64748b; font-weight: 600; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+        .edu-table input { border: none !important; border-bottom: 1px solid #dee2e6 !important; border-radius: 0 !important; background: transparent !important; text-align: center; }
+        .edu-table input:focus { border-bottom-color: var(--primary-teal) !important; box-shadow: none !important; }
+    </style>
+</head>
+<body class="bg-teal-soft min-vh-100">
+    <div id="loader-wrapper"><div class="loader"></div></div>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Portal Brand -->
+                <div class="text-center mb-4">
+                    <img src="logo.jpeg" alt="logo" height="80" class="mb-3">
+                    <h2 class="fw-bold text-dark">प्रवेश आवेदन पत्र (Spot Counselling)</h2>
+                    <p class="text-secondary" data-dynamic="college-name">Government Polytechnic Bazpur</p>
+                    <p class="small text-muted">Academic Session <span data-dynamic="year">2024-25</span></p>
+                </div>
+
+                <div class="custom-card card p-4 p-md-5 border-0 shadow-lg" style="border-radius: 2rem;">
+                    <!-- Progress Stepper -->
+                    <div class="progress-stepper">
+                        <div class="step-item active" id="step1-title">
+                            <div class="step-counter">1</div>
+                            <div class="step-title">Personal</div>
+                        </div>
+                        <div class="step-item" id="step2-title">
+                            <div class="step-counter">2</div>
+                            <div class="step-title">Address</div>
+                        </div>
+                        <div class="step-item" id="step3-title">
+                            <div class="step-counter">3</div>
+                            <div class="step-title">Academic</div>
+                        </div>
+                        <div class="step-item" id="step4-title">
+                            <div class="step-counter">4</div>
+                            <div class="step-title">JEEP & Branch</div>
+                        </div>
+                    </div>
+
+                    <form id="multiStepForm" class="needs-validation" novalidate>
+                        <!-- STEP 1: Personal Details -->
+                        <div class="form-step active" id="step1">
+                            <h5 class="fw-bold mb-4">व्यक्तिगत जानकारी (Personal Details)</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6"><label class="form-label small fw-bold">Candidate Name</label><input type="text" class="form-control" id="fullName" required></div>
+                                <div class="col-md-6"><label class="form-label small fw-bold">Father's Name</label><input type="text" class="form-control" id="fatherName" required></div>
+                                <div class="col-md-6"><label class="form-label small fw-bold">Mother's Name</label><input type="text" class="form-control" id="motherName" required></div>
+                                <div class="col-md-3"><label class="form-label small fw-bold">DOB</label><input type="date" class="form-control" id="dob" required></div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-bold">Gender</label>
+                                    <select class="form-select" id="gender" required><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold">Category</label>
+                                    <select class="form-select" id="category" required><option value="">Select</option><option>GEN</option><option>OBC</option><option>SC</option><option>ST</option><option>EWS</option></select>
+                                </div>
+                                <div class="col-md-4"><label class="form-label small fw-bold">Nationality</label><input type="text" class="form-control" id="nationality" value="INDIAN"></div>
+                                <div class="col-md-4"><label class="form-label small fw-bold">Religion</label><input type="text" class="form-control" id="religion"></div>
+                                <div class="col-md-6"><label class="form-label small fw-bold">Aadhaar Number</label><input type="text" class="form-control" id="aadhaar" maxlength="12"></div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Region</label>
+                                    <select class="form-select" id="region"><option>Rural (ग्रामीण)</option><option>Urban (शहरी)</option></select>
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <label class="form-label small fw-bold">Student Photo <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" id="studentPhoto" accept="image/*" required>
+                                    <small class="text-muted text-xs">Max size 200KB. Image only.</small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-5"><button type="button" class="btn btn-primary-teal btn-pill px-5 py-2" onclick="nextStep(2)">Next Step <i class="fas fa-chevron-right ms-2"></i></button></div>
+                        </div>
+
+                        <!-- STEP 2: Address & Contact -->
+                        <div class="form-step" id="step2">
+                            <h5 class="fw-bold mb-4">पत्राचार एवं स्थाई पता (Address Details)</h5>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Correspondence Address (पत्राचार का पता)</label>
+                                    <textarea class="form-control" id="corrAddress" rows="3" required></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Permanent Address (स्थाई पता)</label>
+                                    <textarea class="form-control" id="permAddress" rows="3" required></textarea>
+                                    <button type="button" class="btn btn-link small p-0 mt-1 text-decoration-none" onclick="copyAddress()">Same as Correspondence</button>
+                                </div>
+                                <div class="col-md-6"><label class="form-label small fw-bold">Mobile Number (WhatsApp)</label><input type="tel" class="form-control" id="mobile" required></div>
+                                <div class="col-md-6"><label class="form-label small fw-bold">Email Address</label><input type="email" class="form-control" id="email" required></div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-5">
+                                <button type="button" class="btn btn-outline-secondary btn-pill px-5" onclick="prevStep(1)">Back</button>
+                                <button type="button" class="btn btn-primary-teal btn-pill px-5" onclick="nextStep(3)">Next Step <i class="fas fa-chevron-right ms-2"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- STEP 3: Education Details -->
+                        <div class="form-step" id="step3">
+                            <h5 class="fw-bold mb-4">शैक्षणिक योग्यता (Educational Qualifications)</h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered edu-table align-middle">
+                                    <thead class="bg-light small">
+                                        <tr class="text-center">
+                                            <th>Class</th>
+                                            <th>Board / School</th>
+                                            <th>Year</th>
+                                            <th>Max Marks</th>
+                                            <th>Obtained</th>
+                                            <th>%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-bold">10th (High School)</td>
+                                            <td><input type="text" class="form-control" id="board10"></td>
+                                            <td><input type="text" class="form-control" id="year10"></td>
+                                            <td><input type="number" class="form-control" id="max10" oninput="recalcBase(10)"></td>
+                                            <td><input type="number" class="form-control" id="obt10" oninput="recalcBase(10)"></td>
+                                            <td><input type="text" class="form-control fw-bold text-primary" id="perc10" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">12th (Intermediate)</td>
+                                            <td><input type="text" class="form-control" id="board12"></td>
+                                            <td><input type="text" class="form-control" id="year12"></td>
+                                            <td><input type="number" class="form-control" id="max12" oninput="recalcBase(12)"></td>
+                                            <td><input type="number" class="form-control" id="obt12" oninput="recalcBase(12)"></td>
+                                            <td><input type="text" class="form-control fw-bold text-primary" id="perc12" readonly></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-between mt-5">
+                                <button type="button" class="btn btn-outline-secondary btn-pill px-5" onclick="prevStep(2)">Back</button>
+                                <button type="button" class="btn btn-primary-teal btn-pill px-5" onclick="nextStep(4)">Next Step <i class="fas fa-chevron-right ms-2"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- STEP 4: JEEP & Branch Selection -->
+                        <div class="form-step" id="step4">
+                            <h5 class="fw-bold mb-4">JEEP परीक्षा एवं शाखा चयन (JEEP Details & Choices)</h5>
+                            <div class="row g-4">
+                                <div class="col-md-4"><label class="form-label small fw-bold">JEEP Group</label><select class="form-select" id="jeepGroup"><option>Group E (General)</option><option>Group P (Pharmacy)</option><option>Group A (Lateral)</option></select></div>
+                                <div class="col-md-4"><label class="form-label small fw-bold">JEEP Roll No</label><input type="text" class="form-control" id="jeepRoll" required></div>
+                                <div class="col-md-4"><label class="form-label small fw-bold">JEEP Rank</label><input type="number" class="form-control" id="jeepRank" oninput="updateSuggestions()" required></div>
+                                
+                                <div class="col-12 mt-4">
+                                    <div class="p-3 border rounded-4 bg-light">
+                                        <h6 class="fw-bold mb-2 small text-primary"><i class="fas fa-magic me-2"></i> AI Branch Suggestion (Based on Rank)</h6>
+                                        <div id="suggestionsBox" class="d-flex gap-2 flex-wrap">
+                                            <small class="text-muted">Enter rank to see suggestions...</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold small text-primary">1st Preference</label>
+                                    <select class="form-select" id="branch1" required>
+                                        <option value="">Choose 1st Choice...</option>
+                                        <option>Computer Science & Engineering</option>
+                                        <option>Mechanical Engineering</option>
+                                        <option>Civil Engineering</option>
+                                        <option>Pharmacy (D.Pharma)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold small text-secondary">2nd Preference</label>
+                                    <select class="form-select" id="branch2" required>
+                                        <option value="">Choose 2nd Choice...</option>
+                                        <option>Computer Science & Engineering</option>
+                                        <option>Mechanical Engineering</option>
+                                        <option>Civil Engineering</option>
+                                        <option>Pharmacy (D.Pharma)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold small text-info">3rd Preference</label>
+                                    <select class="form-select" id="branch3" required>
+                                        <option value="">Choose 3rd Choice...</option>
+                                        <option>Computer Science & Engineering</option>
+                                        <option>Mechanical Engineering</option>
+                                        <option>Civil Engineering</option>
+                                        <option>Pharmacy (D.Pharma)</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check bg-teal-soft p-3 rounded-3">
+                                        <input class="form-check-input ms-0 me-2" type="checkbox" id="meritOrder" required>
+                                        <label class="form-check-label small fw-bold text-dark" for="meritOrder">I confirm that all details provided are correct according to my official documents. I understand that any false information will lead to rejection.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-3 mb-4">
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold">Upload JEEP Rank Card <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" id="rankCard" accept="image/*,application/pdf" required>
+                                <small class="text-muted">Upload your official JEEP Scorecard / Rank Card.</small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-5">
+                                <button type="button" class="btn btn-outline-secondary btn-pill px-5" onclick="prevStep(3)">Back</button>
+                                <button type="submit" class="btn btn-primary-teal btn-pill px-5 py-2">Submit Full Application <i class="fas fa-paper-plane ms-2"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-body p-5 text-center">
+                    <div class="mb-4 text-success display-1"><i class="fas fa-check-circle"></i></div>
+                    <h3 class="fw-bold mb-2">आवेदन सफल!</h3>
+                    <p class="text-secondary mb-4">Your application ID is generated below. Check your email for confirmation.</p>
+                    <div class="bg-light p-3 rounded-4 mb-4 border"><h2 class="fw-bold mb-0 text-primary" id="resAppId">GPB-2024-XXXX</h2></div>
+                    <div id="qrcode" class="d-flex justify-content-center mb-4"></div>
+                    <a href="dashboard.html" class="btn btn-primary-teal btn-pill px-5 py-3 w-100">Go to Dashboard <i class="fas fa-arrow-right ms-2"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg text-center p-4">
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
+                    </div>
+                    <h3 class="fw-bold text-dark">Success!</h3>
+                    <p class="text-secondary">Your application has been submitted successfully.</p>
+                    <div class="bg-light p-3 rounded-3 mb-4">
+                        <small class="text-muted text-uppercase d-block mb-1">Application ID</small>
+                        <h4 class="fw-bold text-primary mb-0" id="resAppId"></h4>
+                    </div>
+                    <div class="d-flex justify-content-center mb-4">
+                        <div id="qrcode" class="border p-2 bg-white rounded"></div>
+                    </div>
+                    <p class="small text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> Please screenshot exactly this screen or save this QR Code for future reference securely!</p>
+                    <a href="index.html" class="btn btn-primary-teal btn-pill px-5">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js?v=3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        let currentStep = 1;
+        function nextStep(step) {
+            if (currentStep < step) {
+                const inputs = document.getElementById(`step${currentStep}`).querySelectorAll('input[required], select[required], textarea[required]');
+                let valid = true;
+                inputs.forEach(i => { if (!i.value) { valid = false; i.classList.add('is-invalid'); } else { i.classList.remove('is-invalid'); } });
+                if (!valid) return;
+            }
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+            document.getElementById(`step${currentStep}-title`).classList.add('completed');
+            document.getElementById(`step${step}-title`).classList.add('active');
+            currentStep = step;
+            window.scrollTo(0, 0);
+        }
+        function prevStep(step) {
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+            document.getElementById(`step${currentStep}-title`).classList.remove('active');
+            currentStep = step;
+        }
+        function copyAddress() { document.getElementById('permAddress').value = document.getElementById('corrAddress').value; }
+        function recalcBase(level) {
+            const max = document.getElementById(`max${level}`).value;
+            const obt = document.getElementById(`obt${level}`).value;
+            document.getElementById(`perc${level}`).value = calculatePercentage(obt, max) + '%';
+        }
+        function updateSuggestions() {
+            const rank = document.getElementById('jeepRank').value;
+            const suggestions = getBranchSuggestions(rank);
+            const box = document.getElementById('suggestionsBox');
+            box.innerHTML = '';
+            suggestions.forEach(s => {
+                const badge = document.createElement('span');
+                badge.className = 'badge bg-primary-teal rounded-pill px-3 py-2 cursor-pointer';
+                badge.style.cursor = 'pointer';
+                badge.innerText = s;
+                badge.onclick = () => {
+                    const b1 = document.getElementById('branch1');
+                    const b2 = document.getElementById('branch2');
+                    const b3 = document.getElementById('branch3');
+                    if (!b1.value) b1.value = s;
+                    else if (!b2.value) b2.value = s;
+                    else if (!b3.value) b3.value = s;
+                };
+                box.appendChild(badge);
+            });
+        }
+
+        document.getElementById('multiStepForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const photoFile = document.getElementById('studentPhoto').files[0];
+            const rankFile = document.getElementById('rankCard').files[0];
+            
+            let photoBase64 = '';
+            let rankBase64 = '';
+            
+            if (photoFile) photoBase64 = await toBase64(photoFile);
+            if (rankFile) rankBase64 = await toBase64(rankFile);
+
+            const formData = {
+                appId: generateAppID(),
+                fullName: document.getElementById('fullName').value,
+                fatherName: document.getElementById('fatherName').value,
+                motherName: document.getElementById('motherName').value,
+                dob: document.getElementById('dob').value,
+                gender: document.getElementById('gender').value,
+                category: document.getElementById('category').value,
+                nationality: document.getElementById('nationality').value,
+                religion: document.getElementById('religion').value,
+                aadhaar: document.getElementById('aadhaar').value,
+                region: document.getElementById('region').value,
+                email: document.getElementById('email').value,
+                mobile: document.getElementById('mobile').value,
+                photo: photoBase64,
+                rankCard: rankBase64,
+                addresses: { corr: document.getElementById('corrAddress').value, perm: document.getElementById('permAddress').value },
+                education: {
+                    hsc: { board: document.getElementById('board10').value, perc: document.getElementById('perc10').value },
+                    ssc: { board: document.getElementById('board12').value, perc: document.getElementById('perc12').value }
+                },
+                jeepGroup: document.getElementById('jeepGroup').value,
+                jeepRoll: document.getElementById('jeepRoll').value,
+                jeepRank: document.getElementById('jeepRank').value,
+                preferences: [
+                    document.getElementById('branch1').value,
+                    document.getElementById('branch2').value,
+                    document.getElementById('branch3').value
+                ],
+                branch: document.getElementById('branch1').value,
+                status: 'Pending Verification',
+                regDate: new Date().toLocaleDateString()
+            };
+            
+            saveStudent(formData);
+            document.getElementById('resAppId').innerText = formData.appId;
+            generateQRCode('qrcode', formData.appId);
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('successModal')).show();
+        });
+    </script>
+</body>
+</html>

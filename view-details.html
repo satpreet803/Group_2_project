@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Details | UGIP Bazpur</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-teal-soft">
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="text-center mb-4">
+                    <img src="logo.jpeg" alt="logo" height="80" class="mb-3">
+                    <h4 class="fw-bold">Spot Counselling Registration Slip</h4>
+                    <p class="text-secondary small" data-dynamic="college-name">Government Polytechnic Bazpur</p>
+                </div>
+
+                <div id="detailsCard" class="custom-card card p-4 shadow-lg border-0 text-center animate-fade-in-up" style="display: none;">
+                    <div id="statusIcon" class="mb-3">
+                        <img id="studentPhoto" src="" alt="photo" class="img-thumbnail rounded-circle mb-3 shadow-sm" style="width: 120px; height: 120px; object-fit: cover; display: none;">
+                        <i id="defaultIcon" class="fas fa-clock text-warning" style="font-size: 4rem;"></i>
+                    </div>
+                    <h2 class="fw-bold mb-1" id="studentName">Student Name</h2>
+                    <p class="text-primary-teal fw-bold mb-3" id="appID">GPB-2024-XXXX</p>
+                    
+                    <div class="badge-status mb-4">
+                        <span id="statusPill" class="badge rounded-pill bg-warning px-4 py-2 text-dark">Pending Verification</span>
+                    </div>
+
+                    <div class="text-start bg-light p-4 rounded-4 mb-4">
+                        <h6 class="fw-bold small text-uppercase text-muted border-bottom pb-2 mb-3">Personal Information</h6>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6"><small class="text-muted d-block">Father's Name</small><span class="fw-bold small" id="detailFather">?</span></div>
+                            <div class="col-6"><small class="text-muted d-block">Category</small><span class="fw-bold small" id="detailCat">?</span></div>
+                            <div class="col-6"><small class="text-muted d-block">Gender</small><span class="fw-bold small" id="detailGender">?</span></div>
+                            <div class="col-6"><small class="text-muted d-block">DOB</small><span class="fw-bold small" id="detailDob">?</span></div>
+                        </div>
+
+                        <h6 class="fw-bold small text-uppercase text-muted border-bottom pb-2 mb-3">Academic & JEEP</h6>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6"><small class="text-muted d-block">JEEP Roll No</small><span class="fw-bold small" id="detailRoll">?</span></div>
+                            <div class="col-6"><small class="text-muted d-block">JEEP Rank</small><span class="fw-bold small" id="detailRank">?</span></div>
+                            <div class="col-12"><small class="text-muted d-block">10th/12th Perc</small><span class="fw-bold small" id="detailEdu">?</span></div>
+                        </div>
+
+                        <h6 class="fw-bold small text-uppercase text-primary border-bottom pb-2 mb-3">Allotment Details</h6>
+                        <div class="p-3 bg-white border border-primary rounded-3 text-center">
+                            <h5 class="fw-bold text-primary mb-0" id="detailAllocated">Awaiting Allotment</h5>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-print-none">
+                        <button class="btn btn-primary-teal btn-pill py-3" onclick="window.print()">
+                            <i class="fas fa-print me-2"></i> Print Registration Receipt
+                        </button>
+                        <a href="dashboard.html" class="btn btn-link text-secondary text-decoration-none small">Back to Dashboard</a>
+                    </div>
+                </div>
+
+                <div id="errorCard" class="custom-card card p-5 text-center shadow-lg border-0" style="display: none;">
+                    <i class="fas fa-exclamation-triangle text-danger mb-3" style="font-size: 4rem;"></i>
+                    <h4 class="fw-bold">Invalid Application</h4>
+                    <p class="text-secondary">The Application ID scanned does not exist in our records.</p>
+                    <a href="index.html" class="btn btn-primary-teal btn-pill px-4">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const appId = urlParams.get('id');
+            
+            if (!appId) {
+                document.getElementById('errorCard').style.display = 'block';
+                return;
+            }
+
+            const student = getStudents().find(s => s.appId === appId);
+
+            if (student) {
+                document.getElementById('studentName').innerText = student.fullName;
+                document.getElementById('appID').innerText = student.appId;
+                
+                // New Fields
+                document.getElementById('detailFather').innerText = student.fatherName || 'N/A';
+                document.getElementById('detailCat').innerText = student.category || 'N/A';
+                document.getElementById('detailGender').innerText = student.gender || 'N/A';
+                document.getElementById('detailDob').innerText = student.dob || 'N/A';
+                document.getElementById('detailRoll').innerText = student.jeepRoll || 'N/A';
+                document.getElementById('detailRank').innerText = student.jeepRank || 'N/A';
+                
+                const hsc = student.education?.hsc?.perc || '';
+                const ssc = student.education?.ssc?.perc || '';
+                document.getElementById('detailEdu').innerText = `10th: ${hsc}% | 12th: ${ssc}%`;
+                
+                // Allotment
+                const allotEl = document.getElementById('detailAllocated');
+                if (student.branch) {
+                    allotEl.innerText = student.branch;
+                    allotEl.classList.add('text-success');
+                }
+
+                const statusPill = document.getElementById('statusPill');
+                const statusIcon = document.getElementById('statusIcon');
+                statusPill.innerText = student.status;
+                
+                if (student.status === 'Approved') {
+                    statusPill.className = 'badge rounded-pill bg-success px-4 py-2 text-white';
+                    statusIcon.innerHTML = '<i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>';
+                } else if (student.status === 'Rejected') {
+                    statusPill.className = 'badge rounded-pill bg-danger px-4 py-2 text-white';
+                    statusIcon.innerHTML = '<i class="fas fa-times-circle text-danger" style="font-size: 4rem;"></i>';
+                }
+                
+                document.getElementById('detailsCard').style.display = 'block';
+            } else {
+                document.getElementById('errorCard').style.display = 'block';
+                // Documents
+                const photoImg = document.getElementById('studentPhoto');
+                const defaultIcon = document.getElementById('defaultIcon');
+                if (student.photo) {
+                    photoImg.src = student.photo;
+                    photoImg.style.display = 'inline-block';
+                    defaultIcon.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

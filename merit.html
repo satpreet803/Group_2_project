@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merit List | UGP Bazpur</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .merit-table thead {
+            background-color: var(--teal-soft);
+        }
+        .rank-high {
+            color: #0d9488;
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Animation -->
+    <div id="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top glass-nav shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="logo.jpeg" alt="logo" height="50" class="me-2">
+                <div class="brand-text">
+                    <span class="fw-bold text-dark d-block">UGIP BAZPUR</span>
+                </div>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link px-3" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="notices.html">Notices</a></li>
+                    <li class="nav-item"><a class="nav-link px-3 active" href="merit.html">Merit List</a></li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <a href="admin-login.html" class="btn btn-outline-primary btn-pill btn-sm px-3 me-2"><i class="fas fa-user-shield me-1"></i> Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="bg-primary-blue text-white py-5 shadow-sm">
+        <div class="container text-center">
+            <h1 class="fw-bold">Provisional Merit List 2024</h1>
+            <p class="mb-0 opacity-75">Rank-wise selection list for Phase I counselling</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <div class="custom-card card p-4 border-0">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                <h5 class="fw-bold mb-0">Phase I - Group A (Engineering)</h5>
+                <div class="d-flex gap-2">
+                    <select class="form-select form-select-sm rounded-pill" id="branchFilter" style="width: 150px;">
+                        <option value="all">All Branches</option>
+                        <option>Computer Science & Engineering</option>
+                        <option>Mechanical Engineering</option>
+                        <option>Civil Engineering</option>
+                        <option>Pharmacy (D.Pharma)</option>
+                    </select>
+                    <button class="btn btn-primary-teal btn-sm btn-pill px-3" onclick="downloadCSV(generateMeritList(document.getElementById('branchFilter').value), 'Merit_List.csv')">
+                        <i class="fas fa-file-excel me-1"></i> Export Excel
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle merit-table">
+                    <thead>
+                        <tr>
+                            <th class="border-0">#</th>
+                            <th class="border-0">Student Name</th>
+                            <th class="border-0">JEEP Rank</th>
+                            <th class="border-0">Percentage</th>
+                            <th class="border-0">Category</th>
+                            <th class="border-0">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td class="fw-bold">Siddharth Negi</td>
+                            <td class="rank-high">24</td>
+                            <td>92.50%</td>
+                            <td>General</td>
+                            <td><span class="badge bg-success rounded-pill">Selected</span></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td class="fw-bold">Anjali Bisht</td>
+                            <td class="rank-high">56</td>
+                            <td>89.40%</td>
+                            <td>General</td>
+                            <td><span class="badge bg-success rounded-pill">Selected</span></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td class="fw-bold">Rahul Prasad</td>
+                            <td class="rank-high">112</td>
+                            <td>88.20%</td>
+                            <td>OBC</td>
+                            <td><span class="badge bg-success rounded-pill">Selected</span></td>
+                        </tr>
+                         <tr>
+                            <td>4</td>
+                            <td class="fw-bold">Meena Chandra</td>
+                            <td class="rank-high">145</td>
+                            <td>85.60%</td>
+                            <td>SC</td>
+                            <td><span class="badge bg-success rounded-pill">Selected</span></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td class="fw-bold">Deepak Rawat</td>
+                            <td class="rank-high">201</td>
+                            <td>84.10%</td>
+                            <td>ST</td>
+                            <td><span class="badge bg-warning rounded-pill">Waitlisted</span></td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td class="fw-bold">Kavita Arya</td>
+                            <td class="rank-high">245</td>
+                            <td>82.90%</td>
+                            <td>General</td>
+                            <td><span class="badge bg-warning rounded-pill">Waitlisted</span></td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMerit('all');
+            
+            document.getElementById('branchFilter').addEventListener('change', (e) => {
+                loadMerit(e.target.value);
+            });
+        });
+
+        function loadMerit(branch) {
+            const meritList = generateMeritList(branch);
+            const tbody = document.querySelector('tbody');
+            tbody.innerHTML = '';
+            
+            if (meritList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">No candidates listed for this selection.</td></tr>';
+                return;
+            }
+
+            meritList.forEach((s, i) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td class="fw-bold">${s.fullName}</td>
+                    <td class="rank-high">${s.jeepRank || 'N/A'}</td>
+                    <td>${s.education?.ssc?.perc || s.education?.hsc?.perc || '0'}%</td>
+                    <td>${s.category}</td>
+                    <td><span class="badge ${s.status === 'Approved' ? 'bg-success' : 'bg-warning'} rounded-pill">${s.status === 'Approved' ? 'Selected' : 'Pending'}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>

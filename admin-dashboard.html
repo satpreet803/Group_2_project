@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | <span data-dynamic="college-short">GP BAZPUR</span></title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .table-responsive {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .status-pill {
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Loading Animation -->
+    <div id="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-none d-lg-block shadow-sm">
+            <div class="p-4 mb-4 border-bottom text-center">
+                <a href="index.html" class="navbar-brand d-flex align-items-center">
+                    <img src="logo.jpeg" alt="logo" height="45" class="me-2">
+                    <span class="fw-bold fs-5 text-dark" data-dynamic="college-short">GP BAZPUR</span>
+                </a>
+            </div>
+            <div class="nav flex-column">
+                <a href="admin-dashboard.html" class="sidebar-link active"><i class="fas fa-chart-line"></i>
+                    Statistics</a>
+                <a href="admin-records.html" class="sidebar-link"><i class="fas fa-users"></i> Student Records</a>
+                <a href="admin-merit.html" class="sidebar-link"><i class="fas fa-file-invoice"></i> Merit List Gen</a>
+                <a href="admin-seats.html" class="sidebar-link"><i class="fas fa-chair"></i> Seat Management</a>
+                <a href="admin-qr.html" class="sidebar-link"><i class="fas fa-qrcode"></i> Registration QR</a>
+                <a href="admin-settings.html" class="sidebar-link"><i class="fas fa-cog"></i> Portal Settings</a>
+                <a href="index.html" class="sidebar-link mt-5 text-danger"><i class="fas fa-power-off"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-grow-1">
+            <!-- Top Header -->
+            <header class="bg-teal-soft border-bottom p-3 sticky-top glass-nav">
+                <div class="container-fluid d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold mb-0">Administration Overview (<span data-dynamic="year">2024-25</span>)</h5>
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 text-end d-none d-md-block">
+                            <small class="text-muted d-block">Logged in as</small>
+                            <span class="fw-bold">Principal Office</span>
+                        </div>
+                        <i class="fas fa-user-shield fs-4 text-primary-teal"></i>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-4 p-lg-5">
+                <!-- Stats Row -->
+                <div class="row g-4 mb-5">
+                    <div class="col-md-4">
+                        <div class="custom-card card p-4 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-secondary small fw-bold text-uppercase">Total Applications</h6>
+                                    <h2 class="fw-bold mb-0">1,248</h2>
+                                </div>
+                                <div class="bg-primary-teal bg-opacity-10 p-3 rounded-3">
+                                    <i class="fas fa-users text-primary-teal fs-3"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-card card p-4 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-secondary small fw-bold text-uppercase">Approved Users</h6>
+                                    <h2 class="fw-bold mb-0 text-success">856</h2>
+                                </div>
+                                <div class="bg-success bg-opacity-10 p-3 rounded-3">
+                                    <i class="fas fa-user-check text-success fs-3"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="custom-card card p-4 border-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-secondary small fw-bold text-uppercase">Pending Review</h6>
+                                    <h2 class="fw-bold mb-0 text-warning">392</h2>
+                                </div>
+                                <div class="bg-warning bg-opacity-10 p-3 rounded-3">
+                                    <i class="fas fa-clock text-warning fs-3"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student Table -->
+                <div class="custom-card card border-0 p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold mb-0">Recent Applications</h5>
+                        <div class="d-flex gap-2">
+                            <input type="text" class="form-control form-control-sm rounded-pill px-3"
+                                placeholder="Search Application ID...">
+                            <button class="btn btn-primary-teal btn-sm btn-pill px-3"
+                                onclick="downloadCSV(getStudents(), 'all-students.csv')"><i
+                                    class="fas fa-download me-1"></i> Export Excel</button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="bg-teal-soft border-bottom">
+                                <tr>
+                                    <th class="border-0">App ID</th>
+                                    <th class="border-0">Student Name</th>
+                                    <th class="border-0">Roll No</th>
+                                    <th class="border-0">Rank</th>
+                                    <th class="border-0">Branch</th>
+                                    <th class="border-0">Status</th>
+                                    <th class="border-0 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Local Data First -->
+                                <tr id="localRow" style="display: none;">
+                                    <td class="fw-bold" id="localAppID"></td>
+                                    <td id="localName"></td>
+                                    <td>24098XXX</td>
+                                    <td class="fw-bold">#245</td>
+                                    <td>Computer Science</td>
+                                    <td><span class="status-pill status-pending" id="localStatus">Pending</span></td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-success rounded-pill me-1"
+                                            onclick="updateStatus('Approved')"><i class="fas fa-check"></i></button>
+                                        <button class="btn btn-sm btn-danger rounded-pill"
+                                            onclick="updateStatus('Rejected')"><i class="fas fa-times"></i></button>
+                                    </td>
+                                </tr>
+                                <!-- Dummy Data -->
+                                <tr>
+                                    <td class="fw-bold">UGIP-2024-5521</td>
+                                    <td>Amit Kumar Sharma</td>
+                                    <td>24110023</td>
+                                    <td class="fw-bold">#102</td>
+                                    <td>Mechanical Engg.</td>
+                                    <td><span class="status-pill status-approved">Approved</span></td>
+                                    <!-- Example Row -->
+                                <tr>
+                                    <td><span class="badge bg-light text-dark border fw-normal">UGP-2024-88A2</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm me-2 bg-primary-blue text-white rounded-circle d-flex align-items-center justify-content-center"
+                                                style="width: 32px; height: 32px; font-size: 0.8rem;">JD</div>
+                                            <span class="fw-bold">John Doe</span>
+                                        </div>
+                                    </td>
+                                    <td>1245</td>
+                                    <td><span class="badge bg-info bg-opacity-10 text-info">CSE</span></td>
+                                    <td><span
+                                            class="badge bg-warning bg-opacity-10 text-warning status-badge">Pending</span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary"
+                                                onclick="viewDetails('UGP-2024-88A2', 'John Doe', 1245, 'CSE')"><i
+                                                    class="fas fa-eye"></i></button>
+                                            <button class="btn btn-success" onclick="updateStatus(this, 'Approved')"><i
+                                                    class="fas fa-check"></i></button>
+                                            <button class="btn btn-danger" onclick="updateStatus(this, 'Rejected')"><i
+                                                    class="fas fa-times"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- LocalStorage Data will be injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- View Student Details Modal (Previous Implementation) -->
+                <!-- ... -->
+
+                <!-- Notice Management Section -->
+                <div class="mt-5 pt-4 border-top">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="fw-bold"><i class="fas fa-bullhorn me-2 text-primary"></i> Notice Management</h4>
+                        <button class="btn btn-primary-teal btn-pill" data-bs-auto-collapse="true"
+                            data-bs-toggle="modal" data-bs-target="#addNoticeModal">
+                            <i class="fas fa-plus me-1"></i> Add New Notice
+                        </button>
+                    </div>
+
+                    <div class="custom-card card p-4">
+                        <div id="adminNoticeList" class="list-group list-group-flush">
+                            <!-- Existing Notices -->
+                            <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                <div>
+                                    <h6 class="fw-bold mb-1">Spot Counselling Schedule 2024</h6>
+                                    <small class="text-muted">Published on: 12 April 2024</small>
+                                </div>
+                                <button class="btn btn-outline-danger btn-sm rounded-pill"
+                                    onclick="this.closest('.list-group-item').remove()">Delete</button>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                <div>
+                                    <h6 class="fw-bold mb-1">Document Verification Guidelines</h6>
+                                    <small class="text-muted">Published on: 10 April 2024</small>
+                                </div>
+                                <button class="btn btn-outline-danger btn-sm rounded-pill"
+                                    onclick="this.closest('.list-group-item').remove()">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- Add Notice Modal -->
+        <div class="modal fade" id="addNoticeModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-3xl border-0 shadow-lg">
+                    <div class="modal-header border-0 pb-0">
+                        <h5 class="modal-title fw-bold">Add New Notice</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <form id="addNoticeForm">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Notice Title</label>
+                                <input type="text" class="form-control" id="noticeTitle" required
+                                    placeholder="e.g., Seat Matrix Update">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Description</label>
+                                <textarea class="form-control" id="noticeDesc" rows="3" required></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-secondary btn-pill" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" onclick="addNewNotice()"
+                            class="btn btn-primary-teal btn-pill px-4">Publish Notice</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Detail Modal -->
+        <div class="modal fade" id="studentModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content rounded-3xl border-0 shadow-lg">
+                    <div class="modal-header border-0 pb-0">
+                        <h5 class="modal-title fw-bold" id="modalTitle">Student Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row g-4">
+                            <div class="col-md-4 text-center">
+                                <div class="bg-light p-4 rounded-3 mb-3">
+                                    <i class="fas fa-user-circle text-primary opacity-50" style="font-size: 4rem;"></i>
+                                </div>
+                                <h5 class="fw-bold mb-0" id="detailName">John Doe</h5>
+                                <small class="text-muted" id="detailAppID">UGP-2024-88A2</small>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <label class="text-muted small d-block">JEECUP Rank</label>
+                                        <span class="fw-bold" id="detailRank">1245</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="text-muted small d-block">Category</label>
+                                        <span class="fw-bold">General</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="text-muted small d-block">Preferred Branch</label>
+                                        <span class="fw-bold" id="detailBranch">CSE</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="text-muted small d-block">Contact</label>
+                                        <span class="fw-bold">9876543210</span>
+                                    </div>
+                                    <div class="col-12 border-top pt-3">
+                                        <h6 class="fw-bold mb-3 small text-uppercase">Uploaded Documents</h6>
+                                        <div class="d-flex gap-2">
+                                            <a href="#" class="btn btn-light btn-sm"><i
+                                                    class="fas fa-file-image me-1"></i> Marks.jpg</a>
+                                            <a href="#" class="btn btn-light btn-sm"><i class="fas fa-id-card me-1"></i>
+                                                Adhaar.png</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-secondary btn-pill" data-bs-dismiss="modal">Close</button>
+                        <div id="modalActions" class="d-flex gap-2">
+                            <!-- Action buttons injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap 5 JS Bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Supabase JS -->
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script src="script.js?v=3"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Initial load
+                loadStudentTable();
+                loadNotices();
+                updateStats();
+
+                // Listen for background sync completion
+                window.addEventListener('studentsSynced', () => {
+                   loadStudentTable();
+                   updateStats();
+                });
+            });
+
+            function updateStats() {
+                const students = getStudents();
+                const totalEl = document.querySelector('h2.fw-bold.mb-0');
+                const approvedEl = document.querySelector('.text-success.fw-bold.mb-0');
+                const pendingEl = document.querySelector('.text-warning.fw-bold.mb-0');
+
+                if (totalEl) totalEl.innerText = students.length;
+                if (approvedEl) approvedEl.innerText = students.filter(s => s.status === 'Approved').length;
+                if (pendingEl) pendingEl.innerText = students.filter(s => s.status === 'Pending Verification').length;
+            }
+
+            function loadStudentTable() {
+                const students = getStudents();
+                const tbody = document.querySelector('tbody');
+                // Keep dummy data if desired, or clear it. Let's clear it for a clean admin view.
+                tbody.innerHTML = '';
+
+                students.forEach(student => {
+                    const row = document.createElement('tr');
+                    let statusClass = 'status-pending';
+                    if (student.status === 'Approved') statusClass = 'status-approved';
+                    if (student.status === 'Rejected') statusClass = 'status-rejected';
+
+                    row.innerHTML = `
+                    <td><span class="badge bg-teal-soft text-dark border fw-normal">${student.appId}</span></td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="avatar-sm me-2 bg-primary-blue text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.8rem;">${student.fullName[0].toUpperCase()}</div>
+                            <span class="fw-bold">${student.fullName}</span>
+                        </div>
+                    </td>
+                    <td>${student.jeepRoll || 'N/A'}</td>
+                    <td><span class="badge bg-info bg-opacity-10 text-info">${student.jeepRank || 'N/A'}</span></td>
+                    <td>${student.branch || 'N/A'}</td>
+                    <td><span class="status-pill ${statusClass}">${student.status}</span></td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-primary" onclick="viewDetails('${student.appId}')"><i class="fas fa-eye"></i></button>
+                            ${student.status === 'Pending Verification' ? `
+                                <button class="btn btn-success" onclick="updateStatus('${student.appId}', 'Approved')"><i class="fas fa-check"></i></button>
+                                <button class="btn btn-danger" onclick="updateStatus('${student.appId}', 'Rejected')"><i class="fas fa-times"></i></button>
+                            ` : `<button class="btn btn-light" disabled><i class="fas fa-lock text-muted"></i></button>`}
+                            <button class="btn btn-outline-danger" onclick="deleteStudentFromTable('${student.appId}')"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                `;
+                    tbody.appendChild(row);
+                });
+            }
+
+            function updateStatus(appId, newStatus) {
+                if (updateStudentStatus(appId, newStatus)) {
+                    showToast(`Application ${newStatus} successfully!`, 'success');
+                    loadStudentTable();
+
+                    // Update stats
+                    const students = getStudents();
+                    document.querySelector('.text-success.fw-bold.mb-0').innerText = students.filter(s => s.status === 'Approved').length;
+                    document.querySelector('.text-warning.fw-bold.mb-0').innerText = students.filter(s => s.status === 'Pending Verification').length;
+                }
+            }
+
+            function viewDetails(appId) {
+                const student = getStudents().find(s => s.appId === appId);
+                if (!student) return;
+
+                document.getElementById('detailName').innerText = student.fullName;
+                document.getElementById('detailAppID').innerText = student.appId;
+                document.getElementById('detailRank').innerText = student.jeepRank;
+                document.getElementById('detailBranch').innerText = student.branch;
+
+                // Re-build actions inside modal
+                const actions = document.getElementById('modalActions');
+                actions.innerHTML = `
+                <button class="btn btn-success btn-pill px-3" onclick="updateStatusFromModal('${student.appId}', 'Approved')">Approve</button>
+                <button class="btn btn-danger btn-pill px-3" onclick="updateStatusFromModal('${student.appId}', 'Rejected')">Reject</button>
+                <button class="btn btn-outline-danger btn-pill px-3" onclick="deleteStudentFromModal('${student.appId}')"><i class="fas fa-trash"></i></button>
+            `;
+
+                // Open modal
+                const modalEl = document.getElementById('studentModal');
+                let modal = bootstrap.Modal.getInstance(modalEl);
+                if (!modal) modal = new bootstrap.Modal(modalEl);
+                modal.show();
+            }
+
+            function updateStatusFromModal(appId, status) {
+                bootstrap.Modal.getInstance(document.getElementById('studentModal')).hide();
+                updateStatus(appId, status);
+            }
+
+            function deleteStudentFromModal(appId) {
+                bootstrap.Modal.getInstance(document.getElementById('studentModal')).hide();
+                deleteStudentFromTable(appId);
+            }
+
+            function deleteStudentFromTable(appId) {
+                if (deleteStudent(appId)) {
+                    showToast('Application deleted successfully', 'success');
+                    loadStudentTable();
+
+                    // Update stats
+                    const students = getStudents();
+                    document.querySelector('h2.fw-bold.mb-0').innerText = students.length;
+                    document.querySelector('.text-success.fw-bold.mb-0').innerText = students.filter(s => s.status === 'Approved').length;
+                    document.querySelector('.text-warning.fw-bold.mb-0').innerText = students.filter(s => s.status === 'Pending Verification').length;
+                }
+            }
+
+            function loadNotices() {
+                const notices = getNotices();
+                const list = document.getElementById('adminNoticeList');
+                list.innerHTML = '';
+                notices.forEach((notice, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'list-group-item d-flex justify-content-between align-items-center py-3';
+                    item.innerHTML = `
+                    <div>
+                        <h6 class="fw-bold mb-1">${notice.title}</h6>
+                        <small class="text-muted">Published on: ${notice.date}</small>
+                    </div>
+                    <button class="btn btn-outline-danger btn-sm rounded-pill" onclick="deleteNotice(${index})">Delete</button>
+                `;
+                    list.appendChild(item);
+                });
+            }
+
+            function addNewNotice() {
+                const title = document.getElementById('noticeTitle').value;
+                if (!title) return;
+
+                if (addNotice(title)) {
+                    loadNotices();
+                    bootstrap.Modal.getInstance(document.getElementById('addNoticeModal')).hide();
+                    showToast('Notice Published Successfully', 'success');
+                    document.getElementById('addNoticeForm').reset();
+                }
+            }
+
+            function deleteNotice(index) {
+                const notices = getNotices();
+                notices.splice(index, 1);
+                localStorage.setItem('portalNotices', JSON.stringify(notices));
+                loadNotices();
+                showToast('Notice Deleted', 'info');
+            }
+        </script>
+</body>
+
+</html>

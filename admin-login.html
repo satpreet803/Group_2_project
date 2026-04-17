@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Government Polytechnic Bazpur</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Loading Animation -->
+    <div id="loader-wrapper">
+        <div class="loader"></div>
+        <div class="loader-text" data-dynamic="college-short">GP BAZPUR</div>
+    </div>
+
+    <div class="container d-flex align-items-center justify-content-center min-vh-100">
+        <div class="col-md-4">
+            <div class="text-center mb-4 reveal">
+                <a href="index.html" class="d-inline-flex align-items-center mb-3 text-decoration-none">
+                    <img src="logo.jpeg" alt="logo" height="80" class="me-2">
+                    <span class="fw-bold fs-3 text-dark" data-dynamic="college-name">Government Polytechnic Bazpur</span>
+                </a>
+                <p class="text-secondary">Official Access Only - <span data-dynamic="college-short">GP BAZPUR</span></p>
+            </div>
+
+            <div class="custom-card card p-5 shadow-lg border-0 reveal delay-200">
+                <form id="adminLoginForm">
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-teal-soft border-0"><i class="fas fa-user-shield text-primary"></i></span>
+                            <input type="text" id="adminUser" class="form-control bg-teal-soft border-0 py-2" placeholder="Enter username" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-teal-soft border-0"><i class="fas fa-lock text-primary"></i></span>
+                            <input type="password" id="adminPass" class="form-control bg-teal-soft border-0 py-2" placeholder="Enter password" required>
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary-teal btn-pill py-3 glow-primary">
+                            <i class="fas fa-sign-in-alt me-2"></i> Log In to Dashboard
+                        </button>
+                    </div>
+                </form>
+                <div class="mt-4 text-center">
+                    <a href="index.html" class="text-secondary small text-decoration-none"><i class="fas fa-arrow-left me-1"></i> Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('adminUser').value;
+            const pass = document.getElementById('adminPass').value;
+
+            if (user === 'admin' && pass === 'admin123') {
+                showToast('Login Successful!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'admin-dashboard.html';
+                }, 1000);
+            } else {
+                showToast('Invalid Username or Password', 'error');
+            }
+        });
+    </script>
+</body>
+</html>

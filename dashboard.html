@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | Government Polytechnic Bazpur</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Loading Animation -->
+    <div id="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-none d-lg-block">
+            <div class="p-4 mb-4 border-bottom">
+                <a href="index.html" class="navbar-brand d-flex align-items-center">
+                    <img src="logo.jpeg" alt="logo" height="45" class="me-2">
+                    <span class="fw-bold fs-5 text-dark" data-dynamic="college-short">GP BAZPUR</span>
+                </a>
+            </div>
+            <div class="nav flex-column">
+                <a href="dashboard.html" class="sidebar-link active"><i class="fas fa-th-large"></i> Dashboard</a>
+                <a href="view-details.html" id="myAppSideLink" class="sidebar-link"><i class="fas fa-file-alt"></i> My Application</a>
+                <a href="allotment.html" class="sidebar-link"><i class="fas fa-check-double"></i> Allotment Status</a>
+                <a href="notifications.html" class="sidebar-link"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="index.html" class="sidebar-link mt-5 text-danger border-top pt-3"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-grow-1">
+            <!-- Top Header -->
+            <header class="bg-teal-soft border-bottom p-3 sticky-top glass-nav">
+                <div class="container-fluid d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold mb-0 lg-ps-4">Welcome, <span id="userName">Student</span></h5>
+                    <div class="dropdown">
+                        <button class="btn btn-primary-teal bg-opacity-10 rounded-circle p-0" type="button" data-bs-toggle="dropdown" style="width: 40px; height: 40px; overflow: hidden;">
+                            <img id="headerPhoto" src="" alt="user" class="w-100 h-100 object-fit-cover" style="display: none;">
+                            <i id="headerIcon" class="fas fa-user-circle fs-4 text-teal" style="line-height: 40px;"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end rounded-3 shadow border-0 mt-2">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="index.html">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-4 p-lg-5">
+                <div class="row g-4">
+                    <!-- Status Card -->
+                    <div class="col-lg-8">
+                        <div class="custom-card card p-4 mb-4 border-start border-primary-teal border-5">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <span class="badge bg-primary-teal bg-opacity-10 text-primary-teal mb-2">APPLICATION STATUS</span>
+                                    <h2 class="fw-bold mb-3" id="appStatus">Pending Verification</h2>
+                                    <p class="text-secondary mb-0">Your application is currently being reviewed by the administration. You will be notified via SMS/Email once verified.</p>
+                                </div>
+                                <div class="col-md-4 text-md-center mt-3 mt-md-0">
+                                    <div id="dashboardQR" class="d-inline-block bg-teal-soft p-2 border border-primary rounded shadow-sm"></div>
+                                    <small class="d-block mt-2 text-dark fw-bold" id="userAppID">GPB-2024-XXXX</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment & Allotment Result -->
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="custom-card card p-4 h-100">
+                                    <h6 class="fw-bold mb-3"><i class="fas fa-credit-card me-2 text-primary"></i> Payment Status</h6>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-success bg-opacity-10 text-success p-3 rounded-circle me-3">
+                                            <i class="fas fa-check-circle fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold mb-0">Paid</h5>
+                                            <small class="text-muted">Transaction ID: TXN-9921D</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="custom-card card p-4 h-100">
+                                    <h6 class="fw-bold mb-3"><i class="fas fa-map-marker-alt me-2 text-primary"></i> Seat Allotment</h6>
+                                    <div class="bg-teal-soft p-3 border border-primary rounded-3 text-center" id="allotmentBox">
+                                        <i class="fas fa-clock text-warning fs-3 mb-2"></i>
+                                        <p class="small fw-bold text-dark mb-0">Seat Allotment in Progress</p>
+                                        <small class="text-dark opacity-75">Verification Pending</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Controls -->
+                    <div class="col-lg-4">
+                        <div class="custom-card card p-4 mb-4">
+                            <h6 class="fw-bold mb-3">Personal Summary</h6>
+                            <hr>
+                            <div class="mb-3">
+                                <small class="text-muted d-block">Full Name</small>
+                                <span class="fw-bold" id="infoName">Demo Student</span>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted d-block">Rank</small>
+                                <span class="fw-bold" id="infoRank">Loading...</span>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted d-block">Branch Opted</small>
+                                <span class="badge bg-dark" id="infoBranch">N/A</span>
+                            </div>
+                            <hr>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary btn-lg w-100 btn-pill mb-3 py-3" onclick="downloadReceipt()">
+                            <i class="fas fa-download me-2"></i> Download Receipt
+                        </button>
+                                <button class="btn btn-outline-secondary btn-pill" onclick="editDetailsTip()">Edit Details</button>
+                            </div>
+                        </div>
+
+                        <!-- Important Dates -->
+                        <div class="custom-card card p-4 bg-primary-blue text-white">
+                            <h6 class="fw-bold mb-3">Important Dates</h6>
+                            <div class="mb-3">
+                                <small class="opacity-75">Registration Deadline</small>
+                                <p class="mb-0 fw-bold" data-dynamic="deadline">30 June <span data-dynamic="year">2026</span></p>
+                            </div>
+                            <div class="mb-0">
+                                <small class="opacity-75">Physical Verification</small>
+                                <p class="mb-0 fw-bold">Starts July <span data-dynamic="year">2026</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fill data from storage
+            const student = getLoggedInStudent();
+            
+            if (student) {
+                document.getElementById('userName').innerText = student.fullName.split(' ')[0];
+                document.getElementById('infoName').innerText = student.fullName;
+                document.getElementById('userAppID').innerText = student.appId;
+                
+                // Set Profile Photo
+                if (student.photo) {
+                    const hPhoto = document.getElementById('headerPhoto');
+                    const hIcon = document.getElementById('headerIcon');
+                    if (hPhoto) {
+                        hPhoto.src = student.photo;
+                        hPhoto.style.display = 'block';
+                        hIcon.style.display = 'none';
+                    }
+                }
+                document.getElementById('myAppSideLink').href = `view-details.html?id=${student.appId}`;
+                // Update Status and Allotment
+                const appStatusEl = document.getElementById('appStatus');
+                const allotmentBox = document.querySelector('.bg-teal-soft.p-3.border');
+                
+                if (student.status === 'Approved' && student.branch) {
+                    appStatusEl.innerText = 'Application Approved';
+                    appStatusEl.className = 'fw-bold mb-3 text-success';
+                    
+                    if (allotmentBox) {
+                        allotmentBox.innerHTML = `
+                            <i class="fas fa-check-circle text-success fs-3 mb-2"></i>
+                            <p class="small fw-bold text-dark mb-0">Seat Allocated!</p>
+                            <h5 class="fw-bold text-primary mt-1">${student.branch}</h5>
+                        `;
+                        allotmentBox.classList.remove('bg-teal-soft');
+                        allotmentBox.classList.add('bg-success', 'bg-opacity-10', 'border-success');
+                    }
+                } else if (student.status === 'Rejected') {
+                    appStatusEl.innerText = 'Application Rejected';
+                    appStatusEl.className = 'fw-bold mb-3 text-danger';
+                }
+
+                // Generate QR
+                generateQRCode('dashboardQR', student.appId);
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        function editDetailsTip() {
+            showToast('Self-editing is disabled once submitted. Please contact Admin for changes.', 'info');
+        }
+    </script>
+</body>
+</html>

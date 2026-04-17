@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allotment Status | Government Polytechnic Bazpur</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="loader-wrapper"><div class="loader"></div></div>
+
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-none d-lg-block shadow-sm">
+            <div class="p-4 mb-4 border-bottom text-center">
+                <a href="index.html" class="navbar-brand d-flex align-items-center">
+                    <img src="logo.jpeg" alt="logo" height="45" class="me-2">
+                    <span class="fw-bold fs-5 text-dark" data-dynamic="college-short">GP BAZPUR</span>
+                </a>
+            </div>
+            <div class="nav flex-column">
+                <a href="dashboard.html" class="sidebar-link"><i class="fas fa-th-large"></i> Dashboard</a>
+                <a href="#" id="myAppSideLink" class="sidebar-link"><i class="fas fa-file-alt"></i> My Application</a>
+                <a href="allotment.html" class="sidebar-link active"><i class="fas fa-check-double"></i> Allotment Status</a>
+                <a href="notifications.html" class="sidebar-link"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="index.html" class="sidebar-link mt-5 text-danger border-top pt-3"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-grow-1">
+            <header class="bg-white border-bottom p-3 sticky-top">
+                <div class="container-fluid d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold mb-0">Seat Allotment Status</h5>
+                    <div id="welcomeUser" class="fw-bold text-primary-teal"></div>
+                </div>
+            </header>
+
+            <div class="p-4 p-lg-5">
+                <div class="custom-card card border-0 p-5 text-center">
+                    <div class="mb-4">
+                        <img src="processing.png" alt="processing" height="150" class="opacity-75">
+                    </div>
+                    <h3 class="fw-bold mb-3">Allotment in Progress</h3>
+                    <p class="text-secondary mx-auto" style="max-width: 500px;">
+                        The first round of seat allotment is currently being processed based on the merit list and your branch preferences. 
+                        Results will be published shortly. Please check back later.
+                    </p>
+                    <div class="mt-4">
+                        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">Status: Awaiting Round 1 Results</span>
+                    </div>
+                    <hr class="my-5 opacity-10">
+                    <div class="row g-4 text-start">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold small text-uppercase text-muted mb-3">Your Preferences</h6>
+                            <div class="p-3 bg-teal-soft rounded-3">
+                                <p class="mb-1 fw-bold" id="prefBranch">Computer Science & Engineering</p>
+                                <small class="text-secondary">Preference #1</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold small text-uppercase text-muted mb-3">Key Instructions</h6>
+                            <ul class="small text-secondary ps-3">
+                                <li>Allotment is based strictly on your JEEP Rank.</li>
+                                <li>Keep scan of your original documents ready for verification.</li>
+                                <li>Check this portal regularly for real-time updates.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const student = getLoggedInStudent();
+            if (student) {
+                document.getElementById('welcomeUser').innerText = student.fullName;
+                document.getElementById('prefBranch').innerText = student.branch;
+                document.getElementById('myAppSideLink').href = `view-details.html?id=${student.appId}`;
+            }
+        });
+    </script>
+</body>
+</html>

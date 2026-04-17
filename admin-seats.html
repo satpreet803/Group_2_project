@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Management | Admin Portal</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="loader-wrapper"><div class="loader"></div></div>
+
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-none d-lg-block shadow-sm">
+            <div class="p-4 mb-4 border-bottom text-center">
+                <a href="index.html" class="navbar-brand d-flex align-items-center">
+                    <img src="logo.jpeg" alt="logo" height="45" class="me-2">
+                    <span class="fw-bold fs-5 text-dark">ADMIN PORTAL</span>
+                </a>
+            </div>
+            <div class="nav flex-column">
+                <a href="admin-dashboard.html" class="sidebar-link"><i class="fas fa-chart-line"></i> Statistics</a>
+                <a href="admin-records.html" class="sidebar-link"><i class="fas fa-users"></i> Student Records</a>
+                <a href="admin-merit.html" class="sidebar-link"><i class="fas fa-file-invoice"></i> Merit List Gen</a>
+                <a href="admin-seats.html" class="sidebar-link active"><i class="fas fa-chair"></i> Seat Management</a>
+                <a href="admin-qr.html" class="sidebar-link"><i class="fas fa-qrcode"></i> Registration QR</a>
+                <a href="admin-settings.html" class="sidebar-link"><i class="fas fa-cog"></i> Portal Settings</a>
+                <a href="index.html" class="sidebar-link mt-5 text-danger"><i class="fas fa-power-off"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-grow-1">
+            <header class="bg-teal-soft border-bottom p-3 sticky-top glass-nav">
+                <div class="container-fluid d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold mb-0">Seat Matrix Management (<span data-dynamic="year">2024-25</span>)</h5>
+                    <button class="btn btn-primary-teal btn-sm btn-pill px-4" onclick="saveSeatMatrixData()">
+                        <i class="fas fa-save me-1"></i> Save Changes
+                    </button>
+                </div>
+            </header>
+
+            <div class="p-4 p-lg-5">
+                <div class="custom-card card border-0 p-4">
+                    <div class="alert alert-info rounded-3 border-0 bg-info bg-opacity-10 text-info mb-4">
+                        <i class="fas fa-info-circle me-2"></i> Update seat availability for each branch. This will reflect on the student's seat matrix page.
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle text-center">
+                            <thead class="bg-teal-soft">
+                                <tr>
+                                    <th>Branch Name</th>
+                                    <th>Total Seats</th>
+                                    <th>GEN</th>
+                                    <th>OBC</th>
+                                    <th>SC</th>
+                                    <th>ST</th>
+                                    <th>EWS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold text-start">Computer Science & Engineering</td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="60"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="30"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="8"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="12"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="4"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="6"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-start">Mechanical Engineering</td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="60"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="28"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="9"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="12"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="5"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="6"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-start">Civil Engineering</td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="60"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="32"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="7"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="11"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="4"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="6"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-start">Pharmacy (D.Pharma)</td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="40"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="20"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="5"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="8"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="3"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" value="4"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadSeats);
+
+        function loadSeats() {
+            const rawMatrix = getRawSeatMatrix();
+            const availMatrix = getSeatMatrix();
+            const tbody = document.querySelector('tbody');
+            tbody.innerHTML = '';
+            
+            rawMatrix.forEach((rawS, i) => {
+                const availS = availMatrix.find(s => s.branch === rawS.branch) || rawS;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="fw-bold text-start">${rawS.branch}<br><small class="text-success fw-normal">Available: ${availS.total}</small></td>
+                    <td><input type="number" class="form-control form-control-sm text-center" value="${rawS.total}" id="total-${i}"></td>
+                    <td><input type="number" class="form-control form-control-sm text-center" value="${rawS.gen}" id="gen-${i}"></td>
+                    <td><input type="number" class="form-control form-control-sm text-center" value="${rawS.obc}" id="obc-${i}"></td>
+                    <td><input type="number" class="form-control form-control-sm text-center" value="${rawS.sc}" id="sc-${i}"></td>
+                    <td><input type="number" class="form-control form-control-sm text-center" value="${rawS.st}" id="st-${i}"></td>
+                    <td><input type="number" class="form-control form-control-sm text-center" value="${rawS.ews}" id="ews-${i}"></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function saveSeatMatrixData() {
+            const matrix = getRawSeatMatrix();
+            const newMatrix = matrix.map((s, i) => ({
+                branch: s.branch,
+                total: document.getElementById(`total-${i}`).value,
+                gen: document.getElementById(`gen-${i}`).value,
+                obc: document.getElementById(`obc-${i}`).value,
+                sc: document.getElementById(`sc-${i}`).value,
+                st: document.getElementById(`st-${i}`).value,
+                ews: document.getElementById(`ews-${i}`).value
+            }));
+            
+            if (saveSeatMatrix(newMatrix)) {
+                showToast('Seat Matrix Updated Successfully!', 'success');
+            }
+        }
+    </script>
+</body>
+</html>
