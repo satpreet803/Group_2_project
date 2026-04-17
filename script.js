@@ -277,7 +277,13 @@ function saveStudent(studentData) {
 }
 
 function getLoggedInStudent() {
-    return JSON.parse(localStorage.getItem('loggedInStudent')) || null;
+    const student = JSON.parse(localStorage.getItem('loggedInStudent')) || null;
+    if (!student) return null;
+    
+    // Find fresh data from synced list
+    const students = getStudents();
+    const fresh = students.find(s => s.appId === student.appId);
+    return fresh || student; // Fallback to stale if not found
 }
 
 // Generate QR Code
