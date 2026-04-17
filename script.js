@@ -322,7 +322,14 @@ function updateStudentStatus(appId, newStatus) {
             _supabase.from('students')
                 .update({ status: newStatus, allocated_branch: newStatus === 'Rejected' ? null : undefined })
                 .eq('app_id', appId)
-                .then(({ error }) => { if (error) console.error("Supabase Status Update Error:", error); });
+                .then(({ error }) => { 
+                    if (error) {
+                        console.error("Supabase Status Update Error:", error);
+                        alert("❌ Cloud Sync Failed!\n\nYour changes were saved locally but NOT in the database. Please check your Supabase 'UPDATE' policy.\n\nError: " + error.message);
+                    } else {
+                        showToast('Status Synced to Cloud', 'success');
+                    }
+                });
         }
         return true;
     }
@@ -341,7 +348,14 @@ function allocateBranch(appId, branchName) {
             _supabase.from('students')
                 .update({ allocated_branch: branchName, status: 'Approved' })
                 .eq('app_id', appId)
-                .then(({ error }) => { if (error) console.error("Supabase Allocation Error:", error); });
+                .then(({ error }) => { 
+                    if (error) {
+                        console.error("Supabase Allocation Error:", error);
+                        alert("❌ Allocation Failed in Cloud!\n\nPlease enable the 'UPDATE' policy in Supabase.\n\nError: " + error.message);
+                    } else {
+                        showToast('Allocation Saved to Cloud', 'success');
+                    }
+                });
         }
         return true;
     }
@@ -361,7 +375,14 @@ function deleteStudent(appId) {
             _supabase.from('students')
                 .delete()
                 .eq('app_id', appId)
-                .then(({ error }) => { if (error) console.error(error); });
+                .then(({ error }) => { 
+                    if (error) {
+                        console.error("Supabase Deletion Error:", error);
+                        alert("❌ Delete Failed in Cloud!\n\nPlease enable the 'DELETE' policy in Supabase.\n\nError: " + error.message);
+                    } else {
+                        showToast('Record Deleted from Cloud', 'success');
+                    }
+                });
         }
         return true;
     }
