@@ -11,6 +11,16 @@ const SUPABASE_URL = "https://qszclqcrjmzfgmzsugwv.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzemNscWNyam16ZmdtenN1Z3d2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDEwNjEsImV4cCI6MjA5MTkxNzA2MX0.slOjFVPWTMq8PX7cP38ivmbVc9FnKdqPJ9tr4xhF7lw"; // Note: I am approximating the end based on typical keys; user should verify.
 
 
+// EmailJS Configuration (User must replace these with their own keys)
+const EMAILJS_PUBLIC_KEY = "pZ7-Y1L-EXAMPLE"; // Replace with your Public Key
+const EMAILJS_SERVICE_ID = "service_gpbazpur"; // Replace with your Service ID
+const EMAILJS_TEMPLATE_ID = "template_status_update"; // Replace with your Template ID
+
+// Initialize EmailJS
+if (typeof emailjs !== 'undefined') {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+}
+
 const _supabase = (typeof supabase !== 'undefined') ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 
@@ -355,6 +365,8 @@ function updateStudentStatus(appId, newStatus) {
                         alert("❌ Cloud Sync Failed!\n\nYour changes were saved locally but NOT in the database. Please check your Supabase 'UPDATE' policy.\n\nError: " + error.message);
                     } else {
                         showToast('Status Synced to Cloud', 'success');
+                        // Trigger Email on Success
+                        sendEmailNotification(students[index], `Application ${newStatus}`);
                     }
                 });
         }
@@ -423,28 +435,42 @@ function updateStudentEligibility(appId, eligibility) {
         students[index].eligibility = eligibility;
         localStorage.setItem('students', JSON.stringify(students));
         
+        if (_supabase) {
+            _supabase.from('students')
+                .update({ eligibility: eligibility })
+                .eq('app_id', appId)
+                .then(({ error }) => {
+                    if (error) console.error("Cloud Eligibility Update Failed:", error);
+                    else showToast('Eligibility Updated in Cloud', 'success');
+                });
+        }
+        
         // Trigger Email Notification
-        emailEligibilityStatus(students[index]);
+        sendEmailNotification(students[index], `Eligibility: ${eligibility}`);
         return true;
     }
     return false;
 }
 
-function emailEligibilityStatus(student) {
-    console.log(`Sending Email to ${student.email}: Your eligibility for Spot Counselling 2024 is now ${student.eligibility}.`);
+function sendEmailNotification(student, changeType) {
+    console.log(`[SIMULATED EMAIL] To: ${student.email} | Subject: GP Bazpur Portal Update | Message: Your ${changeType} has been updated.`);
     
-    // EmailJS Integration (Requires valid keys)
-    if (typeof emailjs !== 'undefined') {
-        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+    if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== "pZ7-Y1L-EXAMPLE") {
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
             to_name: student.fullName,
             to_email: student.email,
             app_id: student.appId,
-            eligibility_status: student.eligibility
+            status_message: `Your application status has been updated to: ${student.status}`,
+            eligibility_status: student.eligibility || 'Pending',
+            change_type: changeType
         }).then(() => {
-            console.log("Email sent successfully!");
+            showToast('Notification email sent!', 'success');
         }).catch((err) => {
-            console.error("Email failed:", err);
+            console.error("EmailJS failed:", err);
+            showToast('Email failed to send. Check console.', 'error');
         });
+    } else {
+        console.warn("EmailJS not configured. Using simulation mode.");
     }
 }
 
