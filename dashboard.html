@@ -156,7 +156,7 @@
     <script src="script.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        function renderDashboard() {
             // Fill data from storage
             const student = getLoggedInStudent();
             
@@ -196,6 +196,9 @@
                 } else if (student.status === 'Rejected') {
                     appStatusEl.innerText = 'Application Rejected';
                     appStatusEl.className = 'fw-bold mb-3 text-danger';
+                } else {
+                    appStatusEl.innerText = 'Application Pending';
+                    appStatusEl.className = 'fw-bold mb-3 text-warning';
                 }
 
                 // Generate QR
@@ -203,6 +206,16 @@
             } else {
                 window.location.href = 'login.html';
             }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDashboard();
+            
+            // Re-render when data is synced from cloud
+            window.addEventListener('studentsSynced', () => {
+                console.log('Dashboard: Data synced from cloud, re-rendering...');
+                renderDashboard();
+            });
         });
 
         function editDetailsTip() {
