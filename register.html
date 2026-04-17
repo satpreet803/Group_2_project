@@ -312,19 +312,27 @@
         });
 
         function validateFiles() {
-            const photo = document.getElementById('studentPhoto').files[0];
-            const rank = document.getElementById('rankCard').files[0];
+            const photoInput = document.getElementById('studentPhoto');
+            const rankInput = document.getElementById('rankCard');
+            const photo = photoInput.files[0];
+            const rank = rankInput.files[0];
             
             if (photo && photo.size > 200 * 1024) {
                 alert("❌ Student Photo is too large! Max 200KB allowed.");
+                photoInput.value = ''; // Clear the input
                 return false;
             }
             if (rank && rank.size > 1024 * 1024) {
                 alert("❌ Rank Card is too large! Max 1MB allowed.");
+                rankInput.value = ''; // Clear the input
                 return false;
             }
             return true;
         }
+
+        // Add real-time change listeners
+        document.getElementById('studentPhoto').addEventListener('change', validateFiles);
+        document.getElementById('rankCard').addEventListener('change', validateFiles);
 
         document.getElementById('multiStepForm').addEventListener('submit', async function(e) {
             e.preventDefault();
