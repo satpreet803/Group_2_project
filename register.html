@@ -71,9 +71,9 @@
                         <div class="form-step active" id="step1">
                             <h5 class="fw-bold mb-4">व्यक्तिगत जानकारी (Personal Details)</h5>
                             <div class="row g-3">
-                                <div class="col-md-6"><label class="form-label small fw-bold">Candidate Name</label><input type="text" class="form-control" id="fullName" required></div>
-                                <div class="col-md-6"><label class="form-label small fw-bold">Father's Name</label><input type="text" class="form-control" id="fatherName" required></div>
-                                <div class="col-md-6"><label class="form-label small fw-bold">Mother's Name</label><input type="text" class="form-control" id="motherName" required></div>
+                                <div class="col-md-6"><label class="form-label small fw-bold">Candidate Name</label><input type="text" class="form-control" id="fullName" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed" required></div>
+                                <div class="col-md-6"><label class="form-label small fw-bold">Father's Name</label><input type="text" class="form-control" id="fatherName" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed" required></div>
+                                <div class="col-md-6"><label class="form-label small fw-bold">Mother's Name</label><input type="text" class="form-control" id="motherName" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed" required></div>
                                 <div class="col-md-3"><label class="form-label small fw-bold">DOB</label><input type="date" class="form-control" id="dob" required></div>
                                 <div class="col-md-3">
                                     <label class="form-label small fw-bold">Gender</label>
@@ -85,14 +85,14 @@
                                 </div>
                                 <div class="col-md-4"><label class="form-label small fw-bold">Nationality</label><input type="text" class="form-control" id="nationality" value="INDIAN"></div>
                                 <div class="col-md-4"><label class="form-label small fw-bold">Religion</label><input type="text" class="form-control" id="religion"></div>
-                                <div class="col-md-6"><label class="form-label small fw-bold">Aadhaar Number</label><input type="text" class="form-control" id="aadhaar" maxlength="12"></div>
+                                <div class="col-md-6"><label class="form-label small fw-bold">Aadhaar Number</label><input type="text" class="form-control numeric-only" id="aadhaar" pattern="\d{12}" maxlength="12" placeholder="12 Digit Number" title="Must be exactly 12 digits" required></div>
                                 <div class="col-md-6">
                                     <label class="form-label small fw-bold">Region</label>
                                     <select class="form-select" id="region"><option>Rural (ग्रामीण)</option><option>Urban (शहरी)</option></select>
                                 </div>
                                 <div class="col-md-12 mt-3">
                                     <label class="form-label small fw-bold">Student Photo <span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" id="studentPhoto" accept="image/*" required>
+                                    <input type="file" class="form-control" id="studentPhoto" accept="image/jpeg, image/png" required>
                                     <small class="text-muted text-xs">Max size 200KB. Image only.</small>
                                 </div>
                             </div>
@@ -112,8 +112,8 @@
                                     <textarea class="form-control" id="permAddress" rows="3" required></textarea>
                                     <button type="button" class="btn btn-link small p-0 mt-1 text-decoration-none" onclick="copyAddress()">Same as Correspondence</button>
                                 </div>
-                                <div class="col-md-6"><label class="form-label small fw-bold">Mobile Number (WhatsApp)</label><input type="tel" class="form-control" id="mobile" required></div>
-                                <div class="col-md-6"><label class="form-label small fw-bold">Email Address</label><input type="email" class="form-control" id="email" required></div>
+                                <div class="col-md-6"><label class="form-label small fw-bold">Mobile Number (WhatsApp)</label><input type="tel" class="form-control numeric-only" id="mobile" pattern="\d{10}" maxlength="10" placeholder="10 Digit Number" title="Must be exactly 10 digits" required></div>
+                                <div class="col-md-6"><label class="form-label small fw-bold">Email Address</label><input type="email" class="form-control" id="email" pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" title="Please use a valid @gmail.com address" required></div>
                             </div>
                             <div class="d-flex justify-content-between mt-5">
                                 <button type="button" class="btn btn-outline-secondary btn-pill px-5" onclick="prevStep(1)">Back</button>
@@ -140,17 +140,17 @@
                                         <tr>
                                             <td class="fw-bold">10th (High School)</td>
                                             <td><input type="text" class="form-control" id="board10"></td>
-                                            <td><input type="text" class="form-control" id="year10"></td>
-                                            <td><input type="number" class="form-control" id="max10" oninput="recalcBase(10)"></td>
-                                            <td><input type="number" class="form-control" id="obt10" oninput="recalcBase(10)"></td>
+                                            <td><input type="text" class="form-control numeric-only" id="year10" maxlength="4"></td>
+                                            <td><input type="text" class="form-control numeric-only" id="max10" oninput="recalcBase(10)"></td>
+                                            <td><input type="text" class="form-control numeric-only" id="obt10" oninput="recalcBase(10)"></td>
                                             <td><input type="text" class="form-control fw-bold text-primary" id="perc10" readonly></td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold">12th (Intermediate)</td>
                                             <td><input type="text" class="form-control" id="board12"></td>
-                                            <td><input type="text" class="form-control" id="year12"></td>
-                                            <td><input type="number" class="form-control" id="max12" oninput="recalcBase(12)"></td>
-                                            <td><input type="number" class="form-control" id="obt12" oninput="recalcBase(12)"></td>
+                                            <td><input type="text" class="form-control numeric-only" id="year12" maxlength="4"></td>
+                                            <td><input type="text" class="form-control numeric-only" id="max12" oninput="recalcBase(12)"></td>
+                                            <td><input type="text" class="form-control numeric-only" id="obt12" oninput="recalcBase(12)"></td>
                                             <td><input type="text" class="form-control fw-bold text-primary" id="perc12" readonly></td>
                                         </tr>
                                     </tbody>
@@ -167,8 +167,8 @@
                             <h5 class="fw-bold mb-4">JEEP परीक्षा एवं शाखा चयन (JEEP Details & Choices)</h5>
                             <div class="row g-4">
                                 <div class="col-md-4"><label class="form-label small fw-bold">JEEP Group</label><select class="form-select" id="jeepGroup"><option>Group E (General)</option><option>Group P (Pharmacy)</option><option>Group A (Lateral)</option></select></div>
-                                <div class="col-md-4"><label class="form-label small fw-bold">JEEP Roll No</label><input type="text" class="form-control" id="jeepRoll" required></div>
-                                <div class="col-md-4"><label class="form-label small fw-bold">JEEP Rank</label><input type="number" class="form-control" id="jeepRank" oninput="updateSuggestions()" required></div>
+                                <div class="col-md-4"><label class="form-label small fw-bold">JEEP Roll No</label><input type="text" class="form-control numeric-only" id="jeepRoll" pattern="\d+" title="Numbers only" required></div>
+                                <div class="col-md-4"><label class="form-label small fw-bold">JEEP Rank</label><input type="text" class="form-control numeric-only" id="jeepRank" oninput="updateSuggestions()" placeholder="Enter Rank" required></div>
                                 
                                 <div class="col-12 mt-4">
                                     <div class="p-3 border rounded-4 bg-light">
@@ -219,7 +219,7 @@
                             <div class="row g-3 mb-4">
                             <div class="col-md-12">
                                 <label class="form-label fw-bold">Upload JEEP Rank Card <span class="text-danger">*</span></label>
-                                <input type="file" class="form-control" id="rankCard" accept="image/*,application/pdf" required>
+                                <input type="file" class="form-control" id="rankCard" accept="image/jpeg, image/png" required>
                                 <small class="text-muted">Upload your official JEEP Scorecard / Rank Card.</small>
                             </div>
                         </div>
@@ -301,37 +301,37 @@
             document.getElementById(`step${step}`).classList.add('active');
             document.getElementById(`step${currentStep}-title`).classList.remove('active');
             currentStep = step;
+            window.scrollTo(0, 0);
         }
-        function copyAddress() { document.getElementById('permAddress').value = document.getElementById('corrAddress').value; }
-        function recalcBase(level) {
-            const max = document.getElementById(`max${level}`).value;
-            const obt = document.getElementById(`obt${level}`).value;
-            document.getElementById(`perc${level}`).value = calculatePercentage(obt, max) + '%';
-        }
-        function updateSuggestions() {
-            const rank = document.getElementById('jeepRank').value;
-            const suggestions = getBranchSuggestions(rank);
-            const box = document.getElementById('suggestionsBox');
-            box.innerHTML = '';
-            suggestions.forEach(s => {
-                const badge = document.createElement('span');
-                badge.className = 'badge bg-primary-teal rounded-pill px-3 py-2 cursor-pointer';
-                badge.style.cursor = 'pointer';
-                badge.innerText = s;
-                badge.onclick = () => {
-                    const b1 = document.getElementById('branch1');
-                    const b2 = document.getElementById('branch2');
-                    const b3 = document.getElementById('branch3');
-                    if (!b1.value) b1.value = s;
-                    else if (!b2.value) b2.value = s;
-                    else if (!b3.value) b3.value = s;
-                };
-                box.appendChild(badge);
+
+        // --- NEW: Strict Validation Helpers ---
+        document.querySelectorAll('.numeric-only').forEach(input => {
+            input.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/\D/g, ''); // Remove non-digits
             });
+        });
+
+        function validateFiles() {
+            const photo = document.getElementById('studentPhoto').files[0];
+            const rank = document.getElementById('rankCard').files[0];
+            
+            if (photo && photo.size > 200 * 1024) {
+                alert("❌ Student Photo is too large! Max 200KB allowed.");
+                return false;
+            }
+            if (rank && rank.size > 1024 * 1024) {
+                alert("❌ Rank Card is too large! Max 1MB allowed.");
+                return false;
+            }
+            return true;
         }
 
         document.getElementById('multiStepForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            if (!validateFiles()) return;
+
+            showToast('Processing Application...', 'info');
             
             const photoFile = document.getElementById('studentPhoto').files[0];
             const rankFile = document.getElementById('rankCard').files[0];
@@ -381,6 +381,35 @@
             generateQRCode('qrcode', formData.appId);
             bootstrap.Modal.getOrCreateInstance(document.getElementById('successModal')).show();
         });
+
+        function copyAddress() { document.getElementById('permAddress').value = document.getElementById('corrAddress').value; }
+        function recalcBase(level) {
+            const max = document.getElementById(`max${level}`).value;
+            const obt = document.getElementById(`obt${level}`).value;
+            document.getElementById(`perc${level}`).value = calculatePercentage(obt, max) + '%';
+        }
+        function updateSuggestions() {
+            const rank = document.getElementById('jeepRank').value;
+            const suggestions = getBranchSuggestions(rank);
+            const box = document.getElementById('suggestionsBox');
+            if(!box) return;
+            box.innerHTML = '';
+            suggestions.forEach(s => {
+                const badge = document.createElement('span');
+                badge.className = 'badge bg-primary-teal rounded-pill px-3 py-2 cursor-pointer';
+                badge.style.cursor = 'pointer';
+                badge.innerText = s;
+                badge.onclick = () => {
+                    const b1 = document.getElementById('branch1');
+                    const b2 = document.getElementById('branch2');
+                    const b3 = document.getElementById('branch3');
+                    if (!b1.value) b1.value = s;
+                    else if (!b2.value) b2.value = s;
+                    else if (!b3.value) b3.value = s;
+                };
+                box.appendChild(badge);
+            });
+        }
     </script>
 </body>
 </html>
