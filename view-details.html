@@ -79,7 +79,7 @@
     <!-- Custom JS -->
     <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        function renderDetails() {
             const urlParams = new URLSearchParams(window.location.search);
             const appId = urlParams.get('id');
             
@@ -94,7 +94,7 @@
                 document.getElementById('studentName').innerText = student.fullName;
                 document.getElementById('appID').innerText = student.appId;
                 
-                // New Fields
+                // Fields
                 document.getElementById('detailFather').innerText = student.fatherName || 'N/A';
                 document.getElementById('detailCat').innerText = student.category || 'N/A';
                 document.getElementById('detailGender').innerText = student.gender || 'N/A';
@@ -111,6 +111,9 @@
                 if (student.branch) {
                     allotEl.innerText = student.branch;
                     allotEl.classList.add('text-success');
+                } else {
+                    allotEl.innerText = 'Awaiting Allotment';
+                    allotEl.classList.remove('text-success');
                 }
 
                 const statusPill = document.getElementById('statusPill');
@@ -123,11 +126,11 @@
                 } else if (student.status === 'Rejected') {
                     statusPill.className = 'badge rounded-pill bg-danger px-4 py-2 text-white';
                     statusIcon.innerHTML = '<i class="fas fa-times-circle text-danger" style="font-size: 4rem;"></i>';
+                } else {
+                    statusPill.className = 'badge rounded-pill bg-warning px-4 py-2 text-dark';
+                    statusIcon.innerHTML = '<i class="fas fa-history text-warning" style="font-size: 4rem;"></i>';
                 }
                 
-                document.getElementById('detailsCard').style.display = 'block';
-            } else {
-                document.getElementById('errorCard').style.display = 'block';
                 // Documents
                 const photoImg = document.getElementById('studentPhoto');
                 const defaultIcon = document.getElementById('defaultIcon');
@@ -135,8 +138,26 @@
                     photoImg.src = student.photo;
                     photoImg.style.display = 'inline-block';
                     defaultIcon.style.display = 'none';
+                } else {
+                    photoImg.style.display = 'none';
+                    defaultIcon.style.display = 'inline-block';
                 }
+
+                document.getElementById('detailsCard').style.display = 'block';
+                document.getElementById('errorCard').style.display = 'none';
+            } else {
+                document.getElementById('detailsCard').style.display = 'none';
+                document.getElementById('errorCard').style.display = 'block';
             }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDetails();
+
+            // Refresh on sync
+            window.addEventListener('studentsSynced', () => {
+                renderDetails();
+            });
         });
     </script>
 </body>
