@@ -301,28 +301,38 @@
                             <div class="col-md-8">
                                 <div class="row g-3">
                                     <div class="col-6">
-                                        <label class="text-muted small d-block">JEECUP Rank</label>
-                                        <span class="fw-bold" id="detailRank">1245</span>
+                                        <label class="text-muted small d-block">Father Name</label>
+                                        <span class="fw-bold" id="detailFather">?</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="text-muted small d-block">Mother Name</label>
+                                        <span class="fw-bold" id="detailMother">?</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="text-muted small d-block">DOB</label>
+                                        <span class="fw-bold" id="detailDob">?</span>
                                     </div>
                                     <div class="col-6">
                                         <label class="text-muted small d-block">Category</label>
-                                        <span class="fw-bold">General</span>
+                                        <span class="fw-bold" id="detailCat">?</span>
                                     </div>
                                     <div class="col-6">
-                                        <label class="text-muted small d-block">Preferred Branch</label>
-                                        <span class="fw-bold" id="detailBranch">CSE</span>
+                                        <label class="text-muted small d-block">Aadhaar</label>
+                                        <span class="fw-bold" id="detailAadhaar">?</span>
                                     </div>
                                     <div class="col-6">
-                                        <label class="text-muted small d-block">Contact</label>
-                                        <span class="fw-bold">9876543210</span>
+                                        <label class="text-muted small d-block">Mobile</label>
+                                        <span class="fw-bold" id="detailMobile">?</span>
+                                    </div>
+                                    <div class="col-12 mt-2">
+                                        <label class="text-muted small d-block">Permanent Address</label>
+                                        <span class="fw-bold xsmall" id="detailAddr">?</span>
                                     </div>
                                     <div class="col-12 border-top pt-3">
                                         <h6 class="fw-bold mb-3 small text-uppercase">Uploaded Documents</h6>
                                         <div class="d-flex gap-2">
-                                            <a href="#" class="btn btn-light btn-sm"><i
-                                                    class="fas fa-file-image me-1"></i> Marks.jpg</a>
-                                            <a href="#" class="btn btn-light btn-sm"><i class="fas fa-id-card me-1"></i>
-                                                Adhaar.png</a>
+                                            <a id="btnRankModal" href="#" target="_blank" class="btn btn-light btn-sm"><i class="fas fa-file-image me-1"></i> Rank Card</a>
+                                            <button onclick="window.print()" class="btn btn-primary-blue btn-sm"><i class="fas fa-print me-1"></i> Print</button>
                                         </div>
                                     </div>
                                 </div>
@@ -426,8 +436,34 @@
 
                 document.getElementById('detailName').innerText = student.fullName;
                 document.getElementById('detailAppID').innerText = student.appId;
-                document.getElementById('detailRank').innerText = student.jeepRank;
-                document.getElementById('detailBranch').innerText = student.branch;
+                
+                // Detailed Fields
+                document.getElementById('detailFather').innerText = student.fatherName || 'N/A';
+                document.getElementById('detailMother').innerText = student.motherName || 'N/A';
+                document.getElementById('detailDob').innerText = student.dob || 'N/A';
+                document.getElementById('detailCat').innerText = student.category || 'N/A';
+                document.getElementById('detailAadhaar').innerText = student.aadhaar || 'N/A';
+                document.getElementById('detailMobile').innerText = student.mobile || 'N/A';
+                document.getElementById('detailAddr').innerText = student.addresses?.perm || student.addresses?.corr || 'N/A';
+                
+                // Status mapping (Optional visually)
+                document.getElementById('detailRankModal')?.innerText || (document.getElementById('detailRankModal').innerText = student.jeepRank || 'N/A');
+
+                // Images
+                const modalImgContainer = document.querySelector('#studentModal .col-md-4 .bg-light');
+                if (student.photo) {
+                    modalImgContainer.innerHTML = `<img src="${student.photo}" class="img-fluid rounded-3" style="max-height: 150px;">`;
+                } else {
+                    modalImgContainer.innerHTML = `<i class="fas fa-user-circle text-primary opacity-50" style="font-size: 4rem;"></i>`;
+                }
+
+                const btnRank = document.getElementById('btnRankModal');
+                if (student.rankCard) {
+                    btnRank.href = student.rankCard;
+                    btnRank.classList.remove('disabled');
+                } else {
+                    btnRank.classList.add('disabled');
+                }
 
                 // Re-build actions inside modal
                 const actions = document.getElementById('modalActions');
