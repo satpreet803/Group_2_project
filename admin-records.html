@@ -138,9 +138,12 @@
                                     <div class="row g-3">
                                         <div class="col-sm-6"><small class="text-muted d-block">Father's Name</small><span class="fw-bold" id="detailFather">Michael Doe</span></div>
                                         <div class="col-sm-6"><small class="text-muted d-block">Mother's Name</small><span class="fw-bold" id="detailMother">Jane Doe</span></div>
-                                        <div class="col-sm-4"><small class="text-muted d-block">DOB</small><span class="fw-bold" id="detailDob">01/01/2006</span></div>
-                                        <div class="col-sm-4"><small class="text-muted d-block">Gender</small><span class="fw-bold" id="detailGender">Male</span></div>
-                                        <div class="col-sm-4"><small class="text-muted d-block">Category</small><span class="fw-bold" id="detailCat">General</span></div>
+                                        <div class="col-sm-4"><small class="text-muted d-block">DOB</small><span class="fw-bold" id="detailDob">?</span></div>
+                                        <div class="col-sm-4"><small class="text-muted d-block">Gender</small><span class="fw-bold" id="detailGender">?</span></div>
+                                        <div class="col-sm-4"><small class="text-muted d-block">Category</small><span class="fw-bold" id="detailCat">?</span></div>
+                                        <div class="col-sm-4"><small class="text-muted d-block">Nationality</small><span class="fw-bold" id="detailNationality">?</span></div>
+                                        <div class="col-sm-4"><small class="text-muted d-block">Religion</small><span class="fw-bold" id="detailReligion">?</span></div>
+                                        <div class="col-sm-4"><small class="text-muted d-block">Aadhaar</small><span class="fw-bold" id="detailAadhaar">?</span></div>
                                         <div class="col-12"><hr class="opacity-10"></div>
                                         <div class="col-md-6"><small class="text-muted d-block">Contact</small><span class="fw-bold" id="detailMobile">9876543210</span></div>
                                         <div class="col-md-6"><small class="text-muted d-block">Email</small><span class="fw-bold" id="detailEmail">john@example.com</span></div>
@@ -326,22 +329,21 @@
         }
 
         function viewDetails(appId) {
+            window.activeStudentId = appId;
             const student = getStudents().find(s => s.appId === appId);
             if (!student) return;
-            
-            // Set current student for allotment logic
-            window.activeStudentId = appId;
 
-            // Basic Info
+            // Personal Info Tab
             document.getElementById('detailName').innerText = student.fullName || 'N/A';
-            document.getElementById('detailAppID').innerText = student.appId || 'N/A';
-            
-            // Personal Tab
+            document.getElementById('detailAppID').innerText = student.appId;
             document.getElementById('detailFather').innerText = student.fatherName || 'N/A';
             document.getElementById('detailMother').innerText = student.motherName || 'N/A';
             document.getElementById('detailDob').innerText = student.dob || 'N/A';
             document.getElementById('detailGender').innerText = student.gender || 'N/A';
             document.getElementById('detailCat').innerText = student.category || 'N/A';
+            document.getElementById('detailNationality').innerText = student.nationality || 'N/A';
+            document.getElementById('detailReligion').innerText = student.religion || 'N/A';
+            document.getElementById('detailAadhaar').innerText = student.aadhaar || 'N/A';
             document.getElementById('detailMobile').innerText = student.mobile || 'N/A';
             document.getElementById('detailEmail').innerText = student.email || 'N/A';
             document.getElementById('detailAddress').innerText = (student.addresses?.perm || student.addresses?.corr) || 'N/A';
