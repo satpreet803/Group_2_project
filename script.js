@@ -58,12 +58,23 @@ document.addEventListener('DOMContentLoaded', () => {
                       education: { ssc: { perc: dbStudent.ssc_perc }, hsc: { perc: dbStudent.hsc_perc } }
                   }));
                   localStorage.setItem('students', JSON.stringify(syncedStudents));
+                  
+                  // LIVE UPDATE: If currently logged in student is in this list, refresh their session data
+                  const loggedIn = JSON.parse(localStorage.getItem('loggedInStudent'));
+                  if (loggedIn) {
+                      const fresh = syncedStudents.find(s => s.appId === loggedIn.appId);
+                      if (fresh) {
+                          console.log('Sync: Refreshing logged-in student session data.');
+                          localStorage.setItem('loggedInStudent', JSON.stringify(fresh));
+                      }
+                  }
               } else {
                   localStorage.setItem('students', JSON.stringify([]));
               }
           }).catch(e => {
               console.error('Supabase Sync failed:', e);
           }).finally(() => {
+              console.log('Sync: Background synchronization complete.');
               window.dispatchEvent(new Event('studentsSynced'));
           });
     } else {
@@ -313,8 +324,17 @@ function getLoggedInStudent() {
     
     // Find fresh data from synced list
     const students = getStudents();
-    const fresh = students.find(s => s.appId === student.appId);
-    return fresh || student; // Fallback to stale if not found
+    const fresh = students.find(s => String(s.appId).trim() === String(student.appId).trim());
+    
+    if (fresh) {
+        if (fresh.status !== student.status) {
+            console.log(`getLoggedInStudent: Found status update! ${student.status} -> ${fresh.status}`);
+        }
+        return fresh;
+    }
+    
+    console.warn(`getLoggedInStudent: No fresh data found for ${student.appId} in synced list.`);
+    return student; // Fallback to stale if not found
 }
 
 // Generate QR Code
