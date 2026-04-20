@@ -77,23 +77,10 @@
 
                         <!-- Payment & Allotment Result -->
                         <div class="row g-4">
-                            <div class="col-md-6">
+
+                            <div class="col-md-12">
                                 <div class="custom-card card p-4 h-100">
-                                    <h6 class="fw-bold mb-3"><i class="fas fa-credit-card me-2 text-primary"></i> Payment Status</h6>
-                                    <div class="d-flex align-items-center">
-                                        <div class="bg-success bg-opacity-10 text-success p-3 rounded-circle me-3">
-                                            <i class="fas fa-check-circle fs-4"></i>
-                                        </div>
-                                        <div>
-                                            <h5 class="fw-bold mb-0">Paid</h5>
-                                            <small class="text-muted">Transaction ID: TXN-9921D</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="custom-card card p-4 h-100">
-                                    <h6 class="fw-bold mb-3"><i class="fas fa-map-marker-alt me-2 text-primary"></i> Seat Allotment</h6>
+                                    <h6 class="fw-bold mb-3"><i class="fas fa-map-marker-alt me-2 text-primary"></i> Seat Allotment Status</h6>
                                     <div class="bg-teal-soft p-3 border border-primary rounded-3 text-center" id="allotmentBox">
                                         <i class="fas fa-clock text-warning fs-3 mb-2"></i>
                                         <p class="small fw-bold text-dark mb-0">Seat Allotment in Progress</p>
@@ -204,8 +191,11 @@
                 } else if (student.status === 'Rejected') {
                     appStatusEl.innerText = 'Application Rejected';
                     appStatusEl.className = 'fw-bold mb-3 text-danger';
+                } else if (student.status === 'Pending Verification') {
+                    appStatusEl.innerText = 'Pending Verification';
+                    appStatusEl.className = 'fw-bold mb-3 text-warning';
                 } else {
-                    appStatusEl.innerText = 'Application Pending';
+                    appStatusEl.innerText = student.status || 'Application Pending';
                     appStatusEl.className = 'fw-bold mb-3 text-warning';
                 }
 
