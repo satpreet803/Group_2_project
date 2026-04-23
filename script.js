@@ -61,11 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
                   
                   // LIVE UPDATE: If currently logged in student is in this list, refresh their session data
                   const loggedIn = JSON.parse(localStorage.getItem('loggedInStudent'));
-                  if (loggedIn) {
-                      const fresh = syncedStudents.find(s => s.appId === loggedIn.appId);
+                  if (loggedIn && loggedIn.appId) {
+                      const loggedInId = String(loggedIn.appId).trim().toLowerCase();
+                      const fresh = syncedStudents.find(s => String(s.appId).trim().toLowerCase() === loggedInId);
+                      
                       if (fresh) {
-                          console.log('Sync: Refreshing logged-in student session data.');
+                          console.log(`Sync: Match found for ${loggedInId}. Updating session data.`);
                           localStorage.setItem('loggedInStudent', JSON.stringify(fresh));
+                      } else {
+                          console.warn(`Sync: Logged-in student ${loggedInId} not found in cloud data.`);
                       }
                   }
               } else {
