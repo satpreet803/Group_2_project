@@ -165,7 +165,9 @@
                 document.getElementById('myAppSideLink').href = `view-details.html?id=${student.appId}`;
                 // Update Status and Allotment
                 const appStatusEl = document.getElementById('appStatus');
-                const allotmentBox = document.querySelector('.bg-teal-soft.p-3.border');
+                const allotmentBox = document.getElementById('allotmentBox');
+                
+                console.log(`renderDashboard: AppID=${student.appId}, Status=${student.status}, Branch=${student.branch || 'None'}`);
                 
                 if (student.status === 'Approved') {
                     appStatusEl.innerText = 'Application Approved';
