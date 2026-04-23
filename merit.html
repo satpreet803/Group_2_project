@@ -145,6 +145,8 @@
         </div>
     </div>
 
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -152,6 +154,12 @@
             
             document.getElementById('branchFilter').addEventListener('change', (e) => {
                 loadMerit(e.target.value);
+            });
+
+            // Refresh on sync
+            window.addEventListener('studentsSynced', () => {
+                console.log('Merit: Data synced, refreshing list...');
+                loadMerit(document.getElementById('branchFilter').value || 'all');
             });
         });
 
