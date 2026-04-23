@@ -96,24 +96,10 @@
                         <div class="custom-card card p-4 mb-4">
                             <h6 class="fw-bold mb-3">Personal Summary</h6>
                             <hr>
-                            <div class="mb-3">
-                                <small class="text-muted d-block">Full Name</small>
-                                <span class="fw-bold" id="infoName">Demo Student</span>
-                            </div>
-                            <div class="mb-3">
-                                <small class="text-muted d-block">Rank</small>
-                                <span class="fw-bold" id="infoRank">Loading...</span>
-                            </div>
-                            <div class="mb-3">
-                                <small class="text-muted d-block">Branch Opted</small>
-                                <span class="badge bg-dark" id="infoBranch">N/A</span>
-                            </div>
-                            <hr>
                             <div class="d-grid gap-2">
-                                <button class="btn btn-primary btn-lg w-100 btn-pill mb-3 py-3" onclick="downloadReceipt()">
-                            <i class="fas fa-download me-2"></i> Download Receipt
-                        </button>
-                                <button class="btn btn-outline-secondary btn-pill" onclick="editDetailsTip()">Edit Details</button>
+                                <button class="btn btn-primary btn-lg w-100 btn-pill py-3" onclick="downloadReceipt()">
+                                    <i class="fas fa-download me-2"></i> Download Receipt
+                                </button>
                             </div>
                         </div>
 
@@ -151,7 +137,6 @@
             
             if (student) {
                 document.getElementById('userName').innerText = student.fullName.split(' ')[0];
-                document.getElementById('infoName').innerText = student.fullName;
                 document.getElementById('userAppID').innerText = student.appId;
                 
                 // Set Profile Photo
@@ -219,10 +204,6 @@
                 renderDashboard();
             });
         });
-
-        function editDetailsTip() {
-            showToast('Self-editing is disabled once submitted. Please contact Admin for changes.', 'info');
-        }
     </script>
 </body>
 </html>
